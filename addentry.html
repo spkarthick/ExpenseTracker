@@ -1,0 +1,37 @@
+<div class="container-fluid addentrypage">
+	<form id="addentryform" class="form-horizontal row-fluid">
+	<div class="centeralign">
+		<div class="formarea">
+		<div class="col-sm-6 col-md-6">
+			<label for="date" class="control-label">Date</label>
+			<input type="date" required class="form-control" value="{{todayDate}}" min="0001-01-01" max="9999-12-31" id="date" placeholder="Entry Date">
+		  </div>
+		  <div class="col-sm-6 col-md-6">
+			<label for="desc" class="control-label">Expense Description</label>
+			<input type="text" required class="form-control" id="desc" placeholder="Description">
+		  </div>
+		  <div class="col-sm-6 col-md-6">
+			<label for="amount" class="control-label">Amount</label>
+			<input type="number" required class="form-control" id="amount" placeholder="Amount">
+		  </div>
+		  <div class="col-sm-6 col-md-6">
+			<label for="type" class="control-label">Type</label>
+			<select class="form-control" ng-model="typeOfTransaction" ng-change="(typeOfTransaction != 'Deposit') ? category='Cash' : category" id="type">
+			  <option>Debit</option>
+			  <option>Transfer</option>
+			  <option>Credit</option>
+			</select>
+		  </div>
+		  <div class="col-sm-6 col-md-6" ng-class="{disable:(typeOfTransaction != 'Debit')}">
+			<label for="category" class="control-label">Category</label>
+			<select class="form-control" id="category" ng-model="category" required>
+			  <option ng-repeat="category in categories.data">{{category.name}}</option>
+			</select>
+		  </div>
+		  <div class="col-sm-6 col-md-6">
+			<input type="submit" value="Add Entry" class="btn btn-primary"/>
+		  </div>
+		</div>
+	  </div>
+	</form>
+</div>

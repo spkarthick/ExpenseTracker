@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html ng-app="expenseApp">
+<head>
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>Expense Tracker</title>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/site.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://code.angularjs.org/1.4.0-rc.2/angular.min.js"></script>
+	<script type="text/javascript" src="https://code.angularjs.org/1.4.0-rc.2/angular-route.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+	<script type="text/javascript" src="scripts/site.js"></script>
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-fixed-top" ng-show="appName != ''">
+	  <div>
+		<div class="navbar-header">
+		  <span class="appicon-arrow_back" onclick="history.back()" ng-show="(appName!='Expense Tracker' && appName != '')"></span> 
+		  <span class="navbar-brand" ng-class="{backbutton:appName!='Expense Tracker'}">
+			{{appName}}
+		  </span>
+		  <div ng-show="appName=='Expense Tracker'" class="btn btn-success pull-right hidden-lg hidden-md hidden-sm toggle appicon-{{toggleIcon}}" ng-click="toggleContent()"></div>
+		  <div ng-show="appName=='Add Entry'" class="btn btn-success pull-right hidden-lg hidden-md hidden-sm toggle appicon-check" ng-click="addEntry()"></div>
+		</div>
+		<div class="btn-group pull-right hidden-xs" ng-show="appName=='Expense Tracker'">
+			<button type="button" class="btn btn-success typeselect dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				{{activeSwitcher}} <span class="caret"></span>
+			</button>
+		  <ul class="dropdown-menu">
+			<li><a ng-click="toggleContent('List')">List</a></li>
+			<li><a ng-click="toggleContent('Report')">Report</a></li>
+		  </ul>
+		</div>
+	  </div>
+	</nav>
+	<div ng-view></div>
+	<div ng-show="loading" class="loading">
+		<div class="innerLoading"><span class="appicon-spinner5"></span></div>
+	</div>
+</body>
+</html>
