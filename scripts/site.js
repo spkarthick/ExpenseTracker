@@ -1,12 +1,34 @@
-var expenseApp = angular.module("expenseApp",["ngRoute"]).run(function($rootScope,$route,$location){
+var expenseApp = angular.module("expenseApp",["ngRoute"]).run(function($rootScope,$route,$location,$timeout){
+	
+	//sets the text on the header
 	$rootScope.appName = "";
+	
+	//used to toggle List page
 	$rootScope.showData=true;
+	
+	//used to toggle reports page
 	$rootScope.showReport=false;
+	
+	//used to toggle icon on the top right corner on lower resolutions
 	$rootScope.toggleIcon='stats-dots';
+	
+	//set the preferred way to show data(switcher in homescreen)
 	$rootScope.activeSwitcher = "List";
+	
+	//set the preferred period to display on home screen and report screen
 	$rootScope.period="week";
-	$rootScope.statisticIndex=0;
+	
+	//set to true to show waitingpopup
 	$rootScope.loading=true;
+	
+	/*triggers event to share method for adding Entry with addEntryController*/
+	
+	$rootScope.addEntry = function() {
+		$rootScope.$broadcast("addEntry");
+	}
+	
+	/*Dummy data to display the spent chart*/
+	
 	$rootScope.statistics = {
 		data:[
 			{ name: "Most Spent" , value: "$100" ,icon:"cart"}, 
@@ -15,6 +37,9 @@ var expenseApp = angular.module("expenseApp",["ngRoute"]).run(function($rootScop
 			{ name: "Least Spent Category" , value: "Cash",icon:"coin-dollar"}
 		]
 	};
+	
+	/*Dummy data to display the prediction chart*/
+	
 	$rootScope.prediction = {
 		data:[
 			{ name: "Over Budget" , value: "Home - $800" ,icon:"home"}, 
@@ -23,10 +48,9 @@ var expenseApp = angular.module("expenseApp",["ngRoute"]).run(function($rootScop
 			{ name: "Too Low" , value: "Cash - $3",icon:"coin-dollar"}
 		]
 	};
-	/*$rootScope.onClick = function() {
-		$location.path("addentry");
-	}
-	*/
+
+	/*Dummy data to display the List on home screen*/
+	
 	$rootScope.categories = {
 		getLabels: function() {
 			var labels=[];
@@ -69,6 +93,9 @@ var expenseApp = angular.module("expenseApp",["ngRoute"]).run(function($rootScop
 				{name: "Health",icon: "heart",amount: 200,color:"#FF5722",entries:{}}
 			]
 	};
+	
+	/*to Switch view on home screen*/
+	
 	$rootScope.toggleContent = function(args){
 		if(args) {
 			var list = (args == "List");
@@ -82,25 +109,34 @@ var expenseApp = angular.module("expenseApp",["ngRoute"]).run(function($rootScop
 			$rootScope.activeSwitcher = $rootScope.showData ? "List" : "Report"
 		}
 		$rootScope.toggleIcon = $rootScope.showData ? 'stats-dots' : 'list';
+		/*$timeout(function(){
+			$rootScope.$broadcast("switchView");
+		});*/
 	}
-	$rootScope.addEntry = function() {
-		$("#addentryform").submit();
-	}
+	
+	/*routeChangeStart triggers at the start of view change*/
+	
 	$rootScope.$on("$routeChangeStart",function(scope){
 		$rootScope.loading=true;
 	});
+	
+	/*routeChangeStart triggers at the end of view change*/
+	
 	$rootScope.$on("$routeChangeSuccess",function(scope){
 		$rootScope.appName = $route.current.data.title;
 		$rootScope.loading=false;
 	});
-});
-
-expenseApp.service("fetchData",function() {
 	
 });
 
 expenseApp.controller("homeController",["$scope","$rootScope",function($scope,$rootScope){
+	
+	/*Init the Home screen*/
+	
 	$scope.init = function(){
+		
+		/*Renders the Spent Chart*/
+		
 		var ctx = $("#spendpattern")[0].getContext("2d");
 		var data = {
 			labels: $rootScope.categories.getLabels(),
@@ -127,7 +163,7 @@ expenseApp.controller("homeController",["$scope","$rootScope",function($scope,$r
 						}*/
 				]
 		};
-		var myLineChart = new Chart(ctx).Radar(data, {
+		$scope.myLineChart = new Chart(ctx).Radar(data, {
 			pointDot: false,
 			scaleOverride: true,
 			scaleSteps: 10,
@@ -135,6 +171,9 @@ expenseApp.controller("homeController",["$scope","$rootScope",function($scope,$r
 			scaleStepWidth: 100,
 			scaleStartValue: 0
 		});
+		
+		/*Renders the Prediction Chart*/
+		
 		var ctx = $("#prediction")[0].getContext("2d");
 		var data = {
 			labels: $rootScope.categories.getLabels(),
@@ -151,7 +190,7 @@ expenseApp.controller("homeController",["$scope","$rootScope",function($scope,$r
 						}
 				]
 		};
-		var myPredictLineChart = new Chart(ctx).Radar(data, {
+		$scope.myPredictLineChart = new Chart(ctx).Radar(data, {
 			pointDot: false,
 			scaleOverride: true,
 			scaleSteps: 10,
@@ -159,11 +198,17 @@ expenseApp.controller("homeController",["$scope","$rootScope",function($scope,$r
 			scaleStepWidth: 100,
 			scaleStartValue: 0
 		});
+		
+		/*ngRepeatFinished will be invoked after ng-repeat generates the elements*/
+		
 		$scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
 			var categories = $rootScope.categories.getLabels();
 			var values = $rootScope.categories.getValues();
 			var total = $rootScope.categories.getTotal();
 			var colors = $rootScope.categories.getColors();
+			
+			/*Renders all the doughnut charts on the home content*/
+			
 			var doughnutOptions = {
 				segmentShowStroke : true,
 				segmentStrokeColor : "#a3a3a3",
@@ -181,27 +226,35 @@ expenseApp.controller("homeController",["$scope","$rootScope",function($scope,$r
 		});
 	}
 	$scope.init();
+	
+	/*$scope.$on("switchView",function(){
+		debugger;
+		$scope.myPredictLineChart.render();
+		$scope.myLineChart.render();
+	});*/
 }]);
 
-expenseApp.controller("addEntryController",["$scope","$rootScope",function($scope,$rootScope){
-	$scope.category="Food";
-	$scope.typeOfTransaction="Debit";
-	var today = new Date();
-	var dd = today.getDate();
-	var mm = today.getMonth()+1; //January is 0!
-	var yyyy = today.getFullYear();
-
-	if(dd<10) {
-		dd='0'+dd
-	} 
-
-	if(mm<10) {
-		mm='0'+mm
-	} 
-
-	today = mm+'/'+dd+'/'+yyyy;
-	$scope.todayDate=today;
+expenseApp.controller("addEntryController",["$scope","$rootScope","expenseTrackerService",function($scope,$rootScope,expenseTrackerService){
+	
+	/*Adds new Entry when using in higher resolutions*/
+	
+	$scope.addEntry = function() {
+		if($scope.addentryform.$valid)
+			expenseTrackerService.addEntry($scope.newEntry);
+	};
+	$scope.newEntry={};
+	$scope.newEntry.category="Food";
+	$scope.newEntry.typeOfTransaction="Debit";
+	$scope.newEntry.todayDate=new Date();
+	
+	/*Adds new Entry when using in lower resolutions*/
+	
+	$scope.$on("addEntry",function(args,data){
+		$scope.addEntry();
+	});
 }]);
+
+/*Specifies route for the application*/
 
 expenseApp.config(["$routeProvider",function($routeProvider){
 	$routeProvider
@@ -224,6 +277,7 @@ expenseApp.config(["$routeProvider",function($routeProvider){
 	});
 }]);
 
+/*Directive for triggering on ng-repeat completion*/
 
 expenseApp.directive('onFinishRender', function ($timeout) {
     return {
@@ -237,6 +291,14 @@ expenseApp.directive('onFinishRender', function ($timeout) {
         }
     }
 });
-/*$(function(){
+
+/*Service to fetch/post data  to/from server*/
+
+expenseApp.service('expenseTrackerService', function($http){
+	this.addEntry=function(newEntry){
+		//$http.post("/",newEntry).success(function(args,data){
 			
-		});*/
+		//});
+		history.back();
+	}
+});
