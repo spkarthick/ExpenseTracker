@@ -350,6 +350,10 @@ button.btn.active,button.btn.active:active,button.btn.active:focus{
 		top: 50%;
 		width:90%;
 	}
+	.validationmsg
+	{
+		margin-top:50px;
+	}
 }
 @media all and (min-width: 770px) {
 	.col-lg-6
@@ -389,8 +393,12 @@ button.btn.active,button.btn.active:active,button.btn.active:focus{
 		height:300px;
 		width:500px;
 		border:1px solid #ddd;
-		border-radius:15px;
+		border-radius:15px 15px 0px 0px;
 		padding:20px;
+	}
+	.validationmsg
+	{
+		border-radius:0px;
 	}
 	.centeralign
 	{

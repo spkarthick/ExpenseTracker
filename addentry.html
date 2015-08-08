@@ -32,11 +32,10 @@
 			<input type="button" value="Add Entry" ng-click="addEntry()" class="btn btn-primary"/>
 		  </div>
 		</div>
+		<div class="alert validationmsg" ng-class="{'alert-danger':addentryform.$invalid,'scale':bounceValidation,'alert-success':addentryform.$valid}" role="alert">
+			<span ng-show="!addentryform.$valid">Enter the required details to proceed.</span>
+			<span ng-show="addentryform.$valid"><b>Success!! </b>you are ready to proceed.</span>
+		</div>
 	  </div>
 	</form>
-	<br/>
-	<div class="alert validationmsg" ng-class="{'alert-danger':addentryform.$invalid,'scale':bounceValidation,'alert-success':addentryform.$valid}" role="alert">
-		<span ng-show="!addentryform.$valid">Enter the required details to proceed.</span>
-		<span ng-show="addentryform.$valid"><b>Success!! </b>you are ready to proceed.</span>
-	</div>
 </div>
