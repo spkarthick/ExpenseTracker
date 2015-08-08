@@ -104,13 +104,20 @@ expenseApp.controller("homeController",["$scope","$rootScope",function($scope,$r
 	});*/
 }]);
 
-expenseApp.controller("addEntryController",["$scope","$rootScope","expenseTrackerService",function($scope,$rootScope,expenseTrackerService){
+expenseApp.controller("addEntryController",["$scope","$rootScope","$animate","$timeout","expenseTrackerService",function($scope,$rootScope,$animate,$timeout,expenseTrackerService){
 	
 	/*Adds new Entry when using in higher resolutions*/
-	debugger;
 	$scope.addEntry = function() {
-		if($scope.addentryform.$valid)
+		if($scope.addentryform.$valid) {
+			$rootScope.loading=true;
 			expenseTrackerService.addEntry($scope.newEntry);
+		}
+		else {
+			$scope.bounceValidation = true;
+			$timeout(function(){
+				$scope.bounceValidation = false;
+			},1000);
+		}
 	};
 	$scope.newEntry={};
 	$scope.newEntry.category="Food";

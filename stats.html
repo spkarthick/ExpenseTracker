@@ -1,78 +1,80 @@
-<div class="container-fluid">
+<div class="container-fluid statspage">
 	<div class="row-fluid">
-		<div class="btn-group reportdataswitcher center" role="group">
-		  <button type="button" class="btn btn-default" ng-click="period='year'" ng-class="{active:period=='year'}">Year</button>
-		  <button type="button" class="btn btn-default" ng-click="period='month'" ng-class="{active:period=='month'}">Month</button>
-		  <button type="button" class="btn btn-default" ng-click="period='week'" ng-class="{active:period=='week'}">Week</button>
+		<div class="row-fluid">
+			<div class="btn-group reportdataswitcher center" role="group">
+			  <button type="button" class="btn btn-default" ng-click="period='year'" ng-class="{active:period=='year'}">Year</button>
+			  <button type="button" class="btn btn-default" ng-click="period='month'" ng-class="{active:period=='month'}">Month</button>
+			  <button type="button" class="btn btn-default" ng-click="period='week'" ng-class="{active:period=='week'}">Week</button>
+			</div>
 		</div>
 	</div>
-</div>
-<div class="container-fluid padding-medium">
-	<div class="container-fluid" ng-show="showReport">
-		<h4 class="statstitle">Statistics</h4>
-		<div class="col-lg-6 removepadding">
-			<canvas id="spendpattern" class="center"></canvas>
-		</div>
-		<div class="col-lg-6 divider scrollparent">
-			<style>
-				@media all and (max-width: 770px) {
-					.scroller
-					{
-						width:{{statistics.data.length * 320}}px;
+	<div class="row-fluid padding-medium">
+		<div class="container-fluid fadeanimation" ng-show="showReport">
+			<h4 class="statstitle">Statistics</h4>
+			<div class="col-lg-6 removepadding">
+				<canvas id="spendpattern" class="center"></canvas>
+			</div>
+			<div class="col-lg-6 divider scrollparent">
+				<style>
+					@media all and (max-width: 770px) {
+						.scroller
+						{
+							width:{{statistics.data.length * 320}}px;
+						}
 					}
-				}
-			</style>
-			<div class="scroller">
-				<div class="col-sm-4 col-xs-6 statisticstiles categorytiles" ng-repeat="value in statistics.data">
-					<div class="thumbnail">
-						<span class="appicon-{{value.icon}}"></span>
-						<div class="caption">
-							<h4>{{value.name}}</h4>
+				</style>
+				<div class="scroller">
+					<div class="col-sm-4 col-xs-6 statisticstiles categorytiles" ng-repeat="value in statistics.data">
+						<div class="thumbnail">
+							<span class="appicon-{{value.icon}}"></span>
+							<div class="caption">
+								<h4>{{value.name}}</h4>
+							</div>
+							<div class="statisticamount">{{value.value}}</div>
 						</div>
-						<div class="statisticamount">{{value.value}}</div>
+					</div>
+				</div>
+			</div>
+			<h4 class="statstitle">Prediction</h4>
+			<div class="col-lg-6 divider">
+				<canvas id="prediction" class="center"></canvas>
+			</div>
+			<div class="col-lg-6 divider scrollparent">
+				<style>
+					@media all and (max-width: 770px) {
+						.predictionscroller
+						{
+							width:{{prediction.data.length * 320}}px;
+						}
+					}
+				</style>
+				<div class="predictionscroller">
+					<div class="col-sm-4 col-xs-6 statisticstiles categorytiles" ng-repeat="value in prediction.data">
+						<div class="thumbnail">
+							<span class="appicon-{{value.icon}}"></span>
+							<div class="caption">
+								<h4>{{value.name}}</h4>
+							</div>
+							<div class="statisticamount">{{value.value}}</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<h4 class="statstitle">Prediction</h4>
-		<div class="col-lg-6 divider">
-			<canvas id="prediction" class="center"></canvas>
-		</div>
-		<div class="col-lg-6 divider scrollparent">
-			<style>
-				@media all and (max-width: 770px) {
-					.predictionscroller
-					{
-						width:{{prediction.data.length * 320}}px;
-					}
-				}
-			</style>
-			<div class="predictionscroller">
-				<div class="col-sm-4 col-xs-6 statisticstiles categorytiles" ng-repeat="value in prediction.data">
-					<div class="thumbnail">
-						<span class="appicon-{{value.icon}}"></span>
-						<div class="caption">
-							<h4>{{value.name}}</h4>
-						</div>
-						<div class="statisticamount">{{value.value}}</div>
-					</div>
+		<div class="row-fluid fadeanimation" ng-show="showData">
+			<div class="col-sm-4 col-xs-6 categorytiles" ng-repeat="category in categories.data" on-finish-render>
+				<div class="thumbnail">
+				  <canvas id="{{category.name}}" class="center" height="60px" width="60px"></canvas>
+				  <span class="appicon-{{category.icon}}"></span>
+				  <div class="caption">
+					<h4>{{category.name}}</h4>
+				  </div>
+				  <div class="reportamount">${{category.amount}}</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="row-fluid" ng-show="showData">
-		<div class="col-sm-4 col-xs-6 categorytiles" ng-repeat="category in categories.data" on-finish-render>
-			<div class="thumbnail">
-			  <canvas id="{{category.name}}" class="center" height="60px" width="60px"></canvas>
-			  <span class="appicon-{{category.icon}}"></span>
-			  <div class="caption">
-				<h4>{{category.name}}</h4>
-			  </div>
-			  <div class="reportamount">${{category.amount}}</div>
-			</div>
-		</div>
-	</div>
-</div>
-<a class="addentry appicon-thin-add" href="#addentry"></a>
+	<a class="addentry appicon-thin-add" href="#addentry"></a>
+<div>
 <!--<div class="addentry appicon-thin-add" ng-click="onClick()"></div>-->
 

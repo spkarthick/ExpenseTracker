@@ -1,0 +1,52 @@
+.fadeanimation.ng-hide-remove,.fadeanimation.ng-enter {
+  -webkit-transition:0.5s linear all;
+  -moz-transition:0.5s linear all;
+  transition:0.5s linear all;
+  opacity:0;
+}
+.fadeanimation.ng-enter-active > div:first-child,.fadeanimation.ng-leave-active > div:first-child {
+	position:absolute;
+	left:0px;
+	top:0px;
+	width:100%;
+}
+.fadeanimation.ng-hide-remove-active,.fadeanimation.ng-enter-active {
+	opacity: 1;
+}
+.fadeanimation.ng-hide-add,.fadeanimation.ng-leave {
+  -webkit-transition:0.5s linear all;
+  -moz-transition:0.5s linear all;
+  transition:0.5s linear all;
+  opacity:1;
+}
+.fadeanimation.ng-hide-add-active,.fadeanimation.ng-leave-active {
+	opacity: 0;
+}
+.alert.scale {
+	-webkit-transform:rotateX(360deg) translateY(-200px);
+	-moz-transform:rotateX(360deg) translateY(-200px);
+	transform:rotateX(360deg) translateY(-200px);
+	-moz-transform-origin:50% 50%;
+	-webkit-transform-origin:50% 50%;
+	transform-origin:50% 50%;
+	-webkit-transition:500ms linear transform;
+	-moz-transition:500ms linear transform;
+	transition:500ms linear transform;
+	z-index:1000000;
+}
+.alert {
+	-webkit-transition:500ms linear transform;
+	-moz-transition:500ms linear transform;
+	transition:500ms linear transform;
+	-webkit-transition-delay: 1s;
+	-moz-transition-delay: 1s;
+    transition-delay: 1s;
+}
+.applicationAlert{
+	-webkit-transform: translateX(-50%) translateY(-50%);
+	-moz-transform: translateX(-50%) translateY(-50%);
+	transform: translateX(-50%) translateY(-50%);
+	-webkit-transition:500ms linear transform;
+	-moz-transition:500ms linear transform;
+	transition:500ms linear transform;
+}

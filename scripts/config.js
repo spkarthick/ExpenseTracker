@@ -1,4 +1,4 @@
-var expenseApp = angular.module("expenseApp",["ngRoute"]);
+var expenseApp = angular.module("expenseApp",["ngRoute","ngAnimate"]);
 
 expenseApp.run(function($rootScope,$route,$location,$timeout){
 	
@@ -48,6 +48,20 @@ expenseApp.run(function($rootScope,$route,$location,$timeout){
 			$rootScope.$broadcast("switchView");
 		});*/
 	}
+	
+	$rootScope.alert = {
+		show:function(text,type){
+			$timeout(function(){
+				$rootScope.alert.showAlert = false;
+			},2000);
+			this.notificationText = text;
+			this.notificationType = type || this.notificationType;
+			this.showAlert = true;
+		},
+		showAlert:false,
+		notificationType:'info',
+		notificationText:''		
+	};
 	
 	/*routeChangeStart triggers at the start of view change*/
 	

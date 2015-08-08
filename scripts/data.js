@@ -1,6 +1,6 @@
 expenseApp.run(function($rootScope,$route,$location,$timeout){
 	/*Dummy data to display the spent chart*/
-	debugger;
+	
 	$rootScope.statistics = {
 		data:[
 			{ name: "Most Spent" , value: "$100" ,icon:"cart"}, 
@@ -70,11 +70,13 @@ expenseApp.run(function($rootScope,$route,$location,$timeout){
 
 /*Service to fetch/post data  to/from server*/
 
-expenseApp.service('expenseTrackerService', function($http){
+expenseApp.service('expenseTrackerService', function($http,$animate,$timeout,$rootScope){
 	this.addEntry=function(newEntry){
 		//$http.post("/",newEntry).success(function(args,data){
-			
+			//$timeout(function(){
+			$rootScope.alert.show("New Entry added","success");
+			history.back();
+			//},3000);
 		//});
-		history.back();
 	}
 });
