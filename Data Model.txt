@@ -1,0 +1,24 @@
+User
+Username
+Password
+profile pic
+Type
+
+Stats
+Txnid
+date
+amount
+sub-category
+category
+
+Categories
+id
+name
+icon
+color
+
+sub-category
+id
+name
+icon
+color
