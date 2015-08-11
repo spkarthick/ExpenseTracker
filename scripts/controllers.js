@@ -88,6 +88,7 @@ expenseApp.controller("homeController",["$scope","$rootScope",function($scope,$r
 				animationEasing : "easeOutBounce",
 				animateRotate : false,
 				animateScale : false,
+				showTooltips: false
 			}
 			for(i = 0;i < categories.length;i++)
 			{
